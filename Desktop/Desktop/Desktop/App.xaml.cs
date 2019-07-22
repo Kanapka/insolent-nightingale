@@ -11,7 +11,7 @@ namespace Desktop
     /// </summary>
     public partial class App : Application
     {
-        protected ConnectionService connectionService;
+        protected MessagingService connectionService;
         public App()
         {
         }
@@ -19,7 +19,7 @@ namespace Desktop
         {
             base.OnStartup(e);
 
-            connectionService = new ConnectionService(
+            connectionService = new MessagingService(
                 new Uri("ws://localhost:443"),
                 new Queue<IMessage>(),
                 new System.Threading.CancellationTokenSource()

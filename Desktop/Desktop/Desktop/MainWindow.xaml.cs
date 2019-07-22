@@ -11,8 +11,8 @@ namespace Desktop
     /// </summary>
     public partial class MainWindow : Window
     {
-        protected ConnectionService ConnectionService { get; set; }
-        public MainWindow(ConnectionService _connectionService)
+        protected MessagingService ConnectionService { get; set; }
+        public MainWindow(MessagingService _connectionService)
         {
             InitializeComponent();
             ConnectionService = _connectionService;
