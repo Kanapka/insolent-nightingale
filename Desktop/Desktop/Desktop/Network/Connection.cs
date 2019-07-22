@@ -8,25 +8,25 @@ namespace Desktop.Network
 {
     public class Connection
     {
-        protected ClientWebSocket socket;
-        protected CancellationToken cancellationToken;
-        protected Uri uri;
-        public Connection(Uri _uri)
+        public static async Task<ClientWebSocket> OpenConnection(ClientWebSocket socket, string _uri)
         {
-            uri = _uri;
-            cancellationToken = new CancellationToken();
-            socket = new ClientWebSocket();
-            socket.ConnectAsync(uri, cancellationToken);
+            var uri = new Uri(_uri);
+            await socket.ConnectAsync(uri, new CancellationToken());
+            return socket;
         }
-        
-        public async void SendMessage(string message)
+        public static async Task<ClientWebSocket> CloseConnection(ClientWebSocket socket)
         {
-            socket = new ClientWebSocket();
-            await socket.ConnectAsync(uri, cancellationToken);
+            await socket.CloseAsync(
+                WebSocketCloseStatus.NormalClosure, 
+                "", 
+                new CancellationToken());
+            return socket;
+        }
+        public static async Task SendMessage(ClientWebSocket socket, string message)
+        {
             var bytes = Encoding.UTF8.GetBytes(message);
             var command = new ArraySegment<byte>(bytes);
             await socket.SendAsync(command, WebSocketMessageType.Text, true, new CancellationToken());
-            socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", new CancellationToken());
         }
     }
 }

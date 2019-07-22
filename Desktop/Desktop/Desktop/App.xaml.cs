@@ -14,24 +14,19 @@ namespace Desktop
     /// </summary>
     public partial class App : Application
     {
-        protected Func<Connection> CreateConnection;
-        protected Func<Uri> CreateUri;
-        protected Func<MainWindow> CreateMainWindow;
+        protected ConnectionService connectionService;
         public App()
         {
-            Bootstrap();
+            connectionService = new ConnectionService(
+                new Uri("ws://localhost:443"),
+                new Queue<Message>()
+            );
         }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            this.MainWindow = CreateMainWindow();
-            this.MainWindow.Show();
-        }
-        public void Bootstrap()
-        {
-            CreateUri = () => new Uri("ws://localhost:443");
-            CreateConnection = () => new Connection(CreateUri());
-            CreateMainWindow = () => new MainWindow(CreateConnection());
+            var MainWindow = new MainWindow(connectionService);
+            MainWindow.Show();
         }
     }
 }

@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:Desktop"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Margin="0,0,569.6,0">
         <StackPanel HorizontalAlignment="Left">
-            <Button Click="OnSendMessage">Message</Button>
+            <Button Click="OnSendMessage" Height="100">Message</Button>
         </StackPanel>
     </Grid>
 </Window>

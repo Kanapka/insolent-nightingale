@@ -70,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Network\Connection.cs" />
+    <Compile Include="Network\ConnectionService.cs" />
+    <Compile Include="Network\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

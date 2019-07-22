@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 using Desktop.Network;
+using System.Net.WebSockets;
+using System.ComponentModel;
 
 namespace Desktop
 {
@@ -9,15 +11,20 @@ namespace Desktop
     /// </summary>
     public partial class MainWindow : Window
     {
-        protected Connection Connection { get; set; }
-        public MainWindow(Connection _connection)
+        protected ConnectionService ConnectionService { get; set; }
+        public MainWindow(ConnectionService _connectionService)
         {
             InitializeComponent();
-            Connection = _connection;
+            ConnectionService = _connectionService;
         }
-        void OnSendMessage(object sender, EventArgs args)
+        async void OnSendMessage(object sender, EventArgs args)
         {
-            Connection.SendMessage("message");
+            ConnectionService.AddMessage(new Message("content"));
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            ConnectionService.Dispose();
         }
     }
 }
