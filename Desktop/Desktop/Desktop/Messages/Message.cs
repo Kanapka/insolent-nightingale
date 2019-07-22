@@ -4,12 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Desktop.Network
+namespace Desktop.Messages
 {
-    public class Message
+    public interface IMessage { }
+    public class Message : IMessage
     {
         protected string Content { get; set; }
-        public Message(string _content)
+
+        public static IMessage ForwardOrder => new Message("Forward!");
+        public static IMessage ReverseOrder => new Message("Backward!");
+
+        protected Message(string _content)
         {
             Content = _content;
         }

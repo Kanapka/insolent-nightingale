@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Desktop.Network;
-using System.Net.WebSockets;
+using Desktop.Messages;
 using System.ComponentModel;
 
 namespace Desktop
@@ -19,7 +19,7 @@ namespace Desktop
         }
         async void OnSendMessage(object sender, EventArgs args)
         {
-            ConnectionService.AddMessage(new Message("content"));
+            ConnectionService.AddMessage(Message.ForwardOrder);
         }
         protected override void OnClosing(CancelEventArgs e)
         {

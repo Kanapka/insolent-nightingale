@@ -1,36 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Net.WebSockets;
+using Desktop.Messages;
 
 namespace Desktop.Network
 {
     public class ConnectionService : IDisposable
     {
         protected Uri uri { get; }
-        protected Queue<Message> OutgoingMessages { get; }
+        protected Queue<IMessage> OutgoingMessages { get; }
         protected CancellationToken Token { get; }
         protected CancellationTokenSource TokenSource { get; }
-        public ConnectionService(Uri _uri, Queue<Message> _outgoingMessages)
+        public ConnectionService(
+            Uri _uri, 
+            Queue<IMessage> _outgoingMessages, 
+            CancellationTokenSource _tokenSource)
         {
             uri = _uri;
             OutgoingMessages = _outgoingMessages;
-            TokenSource = new CancellationTokenSource();
+            TokenSource = _tokenSource;
             Token = TokenSource.Token;
-            Action RunWithToken = () => Run(Token);
+
+        }
+        public void Startup()
+        {
+            Action RunWithToken = () => Run(Token, uri);
             var task = Task.Run(RunWithToken);
         }
-        public void AddMessage(Message message)
+        public void AddMessage(IMessage message)
         {
             OutgoingMessages.Enqueue(message);
         }
-        protected async void Run(CancellationToken cancellationToken)
+        protected async void Run(CancellationToken cancellationToken, Uri uri)
         {
             var socket = new ClientWebSocket();
-            socket = await Connection.OpenConnection(socket, "ws://localhost:443");
+            socket = await Connection.OpenConnection(socket, uri);
             int counter = 0;
             while (true)
             {

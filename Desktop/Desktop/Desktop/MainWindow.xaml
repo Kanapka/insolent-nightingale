@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Desktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="0,0,569.6,0">
+        Title="MainWindow" Height="345.67" Width="206.983">
+    <Grid Margin="0,0,3.2,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="166*"/>
+            <ColumnDefinition Width="15*"/>
+        </Grid.ColumnDefinitions>
         <StackPanel HorizontalAlignment="Left">
             <Button Click="OnSendMessage" Height="100">Message</Button>
         </StackPanel>

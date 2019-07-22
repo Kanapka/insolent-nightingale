@@ -8,10 +8,9 @@ namespace Desktop.Network
 {
     public class Connection
     {
-        public static async Task<ClientWebSocket> OpenConnection(ClientWebSocket socket, string _uri)
+        public static async Task<ClientWebSocket> OpenConnection(ClientWebSocket socket, Uri _uri)
         {
-            var uri = new Uri(_uri);
-            await socket.ConnectAsync(uri, new CancellationToken());
+            await socket.ConnectAsync(_uri, new CancellationToken());
             return socket;
         }
         public static async Task<ClientWebSocket> CloseConnection(ClientWebSocket socket)

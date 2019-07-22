@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Desktop.Messages;
 using Desktop.Network;
+using System;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace Desktop
 {
@@ -17,14 +14,18 @@ namespace Desktop
         protected ConnectionService connectionService;
         public App()
         {
-            connectionService = new ConnectionService(
-                new Uri("ws://localhost:443"),
-                new Queue<Message>()
-            );
         }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            connectionService = new ConnectionService(
+                new Uri("ws://localhost:443"),
+                new Queue<IMessage>(),
+                new System.Threading.CancellationTokenSource()
+            );
+
+            connectionService.Startup();
             var MainWindow = new MainWindow(connectionService);
             MainWindow.Show();
         }
