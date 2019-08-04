@@ -1,4 +1,4 @@
-﻿using Desktop.Messages;
+﻿using Desktop.Commands;
 using Desktop.Network;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,8 @@ namespace Desktop
 
             connectionService = new MessagingService(
                 new Uri("ws://localhost:443"),
-                new Queue<IMessage>(),
+                new Queue<ICommand>(),
+                new Queue<ICommand>(),
                 new System.Threading.CancellationTokenSource()
             );
 

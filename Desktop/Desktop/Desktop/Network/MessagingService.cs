@@ -4,35 +4,41 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Net.WebSockets;
-using Desktop.Network;
+using Desktop.Commands;
+using Newtonsoft.Json;
 
-namespace Desktop.Messages
+
+namespace Desktop.Network
 {
     public class MessagingService : IDisposable
     {
         protected Uri uri { get; }
-        protected Queue<IMessage> OutgoingMessages { get; }
+        protected Queue<ICommand> OutgoingMessages { get; }
+        protected Queue<ICommand> IncomingMessages { get; }
         protected CancellationToken Token { get; }
         protected CancellationTokenSource TokenSource { get; }
+        protected int Sequence { get; set; }
         private readonly object queueLock = new object();
 
         public MessagingService(
             Uri _uri, 
-            Queue<IMessage> _outgoingMessages, 
+            Queue<ICommand> _outgoingMessages,
+            Queue<ICommand> _incomingMessages,
             CancellationTokenSource _tokenSource)
         {
             uri = _uri;
             OutgoingMessages = _outgoingMessages;
+            IncomingMessages = _incomingMessages;
             TokenSource = _tokenSource;
             Token = TokenSource.Token;
-
+            Sequence = 0;
         }
         public void Startup()
         {
-            Action RunWithToken = () => Run(Token, uri);
+            void RunWithToken() => Run(Token, uri);
             var task = Task.Run(RunWithToken);
         }
-        public void AddMessage(IMessage message)
+        public void AddMessage(ICommand message)
         {
             lock (queueLock)
             {
@@ -43,28 +49,37 @@ namespace Desktop.Messages
         {
             var socket = new ClientWebSocket();
             socket = await Connection.OpenConnection(socket, uri);
-            int counter = 0;
             while (socket.State == WebSocketState.Open)
             {
-                IMessage message = null;
+                ICommand message = null;
                 lock (queueLock)
                 {
                     message = OutgoingMessages.Any() ? OutgoingMessages.Dequeue() : null;
                 }
                 if (message != null)
                 {
-                    await Connection.SendMessage(socket, $"message no: {counter}, payload: {message}");
-                    System.Diagnostics.Trace.WriteLine($"message {counter} sent");
-                    counter += 1;   
+                    await SendMessage(socket, message);
                 }
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    await Connection.CloseConnection(socket);
-                    System.Diagnostics.Trace.WriteLine("Closing connection");
+                    await Cancel(socket);
                     cancellationToken.ThrowIfCancellationRequested();
                 }
             }
             System.Diagnostics.Trace.WriteLine($"Connection closed. Reason: {socket.CloseStatus}, Details: {socket.CloseStatusDescription}");
+        }
+
+        protected async Task SendMessage(ClientWebSocket socket, ICommand message)
+        {
+            await Connection.SendMessage(socket, JsonConvert.SerializeObject(message));
+            System.Diagnostics.Trace.WriteLine($"message {Sequence} sent");
+            Sequence += 1;
+        }
+
+        protected async Task Cancel(ClientWebSocket socket)
+        {
+            await Connection.CloseConnection(socket);
+            System.Diagnostics.Trace.WriteLine("Closing connection");
         }
 
         public void Dispose()

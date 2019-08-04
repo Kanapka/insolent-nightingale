@@ -12,7 +12,9 @@
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
         <StackPanel HorizontalAlignment="Left">
-            <Button Click="OnSendMessage" Height="100">Message</Button>
+            <Button Click="OnRequestTurnLedOn" Height="30">On</Button>
+            <Button Click="OnRequestTurnLedOff" Height="30">Off</Button>
+            <Button Click="OnRequestBlinkLed" Height="30">Blink</Button>
         </StackPanel>
     </Grid>
 </Window>

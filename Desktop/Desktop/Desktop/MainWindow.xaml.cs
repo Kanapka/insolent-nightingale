@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Desktop.Network;
-using Desktop.Messages;
+using Desktop.Commands;
 using System.ComponentModel;
 
 namespace Desktop
@@ -17,9 +17,17 @@ namespace Desktop
             InitializeComponent();
             ConnectionService = _connectionService;
         }
-        async void OnSendMessage(object sender, EventArgs args)
+        async void OnRequestTurnLedOn(object sender, EventArgs args)
         {
-            ConnectionService.AddMessage(Message.ForwardOrder);
+            ConnectionService.AddMessage(LedCommand.On);
+        }
+        async void OnRequestTurnLedOff(object sender, EventArgs args)
+        {
+            ConnectionService.AddMessage(LedCommand.Off);
+        }
+        async void OnRequestBlinkLed(object sender, EventArgs args)
+        {
+            ConnectionService.AddMessage(LedCommand.Blink);
         }
         protected override void OnClosing(CancelEventArgs e)
         {
