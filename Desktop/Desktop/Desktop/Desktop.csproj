@@ -76,6 +76,7 @@
     <Compile Include="Modules\LedModule.cs" />
     <Compile Include="Modules\Module.cs" />
     <Compile Include="Network\Connection.cs" />
+    <Compile Include="Network\IMessagingService.cs" />
     <Compile Include="Network\MessagingService.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

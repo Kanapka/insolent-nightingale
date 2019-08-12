@@ -5,16 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Desktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="345.67" Width="206.983">
+        Title="MainWindow" 
+        Height="345.67" 
+        Width="586.183"
+        Name="Main">
     <Grid Margin="0,0,3.2,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="166*"/>
-            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="123*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="38*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel HorizontalAlignment="Left">
-            <Button Click="OnRequestTurnLedOn" Height="30">On</Button>
-            <Button Click="OnRequestTurnLedOff" Height="30">Off</Button>
-            <Button Click="OnRequestBlinkLed" Height="30">Blink</Button>
+        <StackPanel HorizontalAlignment="Left" Margin="0" Width="80">
+            <Button Height="30" Width="60" Click="OnConnectionClick" Content="{Binding ConnectionButtonText, ElementName=Main}"></Button>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Right" Margin="0" Width="80">
+            <Label>LED controls</Label>
+            <Button Click="OnRequestTurnLedOn" Height="30" Width="60">On</Button>
+            <Button Click="OnRequestTurnLedOff" Height="30" Width="60">Off</Button>
+            <Button Click="OnRequestBlinkLed" Height="30" Width="60">Blink</Button>
         </StackPanel>
     </Grid>
 </Window>

@@ -10,14 +10,15 @@ using Newtonsoft.Json;
 
 namespace Desktop.Network
 {
-    public class MessagingService : IDisposable
+    public class MessagingService : IMessagingService
     {
-        protected Uri uri { get; }
-        protected Queue<ICommand> OutgoingMessages { get; }
-        protected Queue<ICommand> IncomingMessages { get; }
-        protected CancellationToken Token { get; }
-        protected CancellationTokenSource TokenSource { get; }
-        protected int Sequence { get; set; }
+        public string State => WebSocket?.State.ToString() ?? "Not connected";
+        private ClientWebSocket WebSocket { get; set; }
+        private Uri Uri { get; }
+        private Queue<ICommand> OutgoingMessages { get; }
+        private Queue<ICommand> IncomingMessages { get; }
+        private CancellationToken Token { get; }
+        private CancellationTokenSource TokenSource { get; }
         private readonly object queueLock = new object();
 
         public MessagingService(
@@ -26,16 +27,15 @@ namespace Desktop.Network
             Queue<ICommand> _incomingMessages,
             CancellationTokenSource _tokenSource)
         {
-            uri = _uri;
+            Uri = _uri;
             OutgoingMessages = _outgoingMessages;
             IncomingMessages = _incomingMessages;
             TokenSource = _tokenSource;
             Token = TokenSource.Token;
-            Sequence = 0;
         }
         public void Startup()
         {
-            void RunWithToken() => Run(Token, uri);
+            void RunWithToken() => Run(Token, Uri);
             var task = Task.Run(RunWithToken);
         }
         public void AddMessage(ICommand message)
@@ -45,11 +45,15 @@ namespace Desktop.Network
                 OutgoingMessages.Enqueue(message);
             }
         }
+        public void Disconnect()
+        {
+            TokenSource.Cancel();
+        }
         protected async void Run(CancellationToken cancellationToken, Uri uri)
         {
-            var socket = new ClientWebSocket();
-            socket = await Connection.OpenConnection(socket, uri);
-            while (socket.State == WebSocketState.Open)
+            WebSocket = new ClientWebSocket();
+            WebSocket = await Connection.OpenConnection(WebSocket, uri);
+            while (WebSocket.State == WebSocketState.Open)
             {
                 ICommand message = null;
                 lock (queueLock)
@@ -58,22 +62,20 @@ namespace Desktop.Network
                 }
                 if (message != null)
                 {
-                    await SendMessage(socket, message);
+                    await SendMessage(WebSocket, message);
                 }
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    await Cancel(socket);
+                    await Cancel(WebSocket);
                     cancellationToken.ThrowIfCancellationRequested();
                 }
             }
-            System.Diagnostics.Trace.WriteLine($"Connection closed. Reason: {socket.CloseStatus}, Details: {socket.CloseStatusDescription}");
+            System.Diagnostics.Trace.WriteLine($"Connection closed. Reason: {WebSocket.CloseStatus}, Details: {WebSocket.CloseStatusDescription}");
         }
 
         protected async Task SendMessage(ClientWebSocket socket, ICommand message)
         {
             await Connection.SendMessage(socket, JsonConvert.SerializeObject(message));
-            System.Diagnostics.Trace.WriteLine($"message {Sequence} sent");
-            Sequence += 1;
         }
 
         protected async Task Cancel(ClientWebSocket socket)

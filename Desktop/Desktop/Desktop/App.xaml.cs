@@ -26,7 +26,6 @@ namespace Desktop
                 new System.Threading.CancellationTokenSource()
             );
 
-            connectionService.Startup();
             var MainWindow = new MainWindow(connectionService);
             MainWindow.Show();
         }

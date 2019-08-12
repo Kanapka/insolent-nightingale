@@ -11,11 +11,13 @@ namespace Desktop
     /// </summary>
     public partial class MainWindow : Window
     {
-        protected MessagingService ConnectionService { get; set; }
+        private MessagingService ConnectionService { get; set; }
+        public string ConnectionButtonText { get; set; }
         public MainWindow(MessagingService _connectionService)
         {
             InitializeComponent();
             ConnectionService = _connectionService;
+            ConnectionButtonText = "Disconnected";
         }
         async void OnRequestTurnLedOn(object sender, EventArgs args)
         {
@@ -28,6 +30,26 @@ namespace Desktop
         async void OnRequestBlinkLed(object sender, EventArgs args)
         {
             ConnectionService.AddMessage(LedCommand.Blink);
+        }
+        async void OnConnectionClick(object sender, EventArgs args)
+        {
+            switch (ConnectionService.State)
+            {
+                case "Open":
+                    ConnectionService.Disconnect();
+                    ConnectionButtonText = "Disconnected";
+                    break;
+                case "Not connected":
+                case "Closed":
+                    ConnectionService.Startup();
+                    ConnectionButtonText = "Connected";
+                    break;
+                case "Connecting":
+                case "CloseReceived":
+                case "CloseSent":
+                default:
+                    break;
+            }
         }
         protected override void OnClosing(CancelEventArgs e)
         {
