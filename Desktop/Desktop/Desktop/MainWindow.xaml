@@ -15,8 +15,8 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="38*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel HorizontalAlignment="Left" Margin="0" Width="80">
-            <Button Height="30" Width="60" Click="OnConnectionClick" Content="{Binding ConnectionButtonText, ElementName=Main}"></Button>
+        <StackPanel HorizontalAlignment="Left" Margin="0" Width="150">
+            <Button Height="30" Width="140" Click="OnConnectionClick" Content="{Binding ConnectionButtonText, ElementName=Main, Mode=OneWay}"></Button>
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Margin="0" Width="80">
             <Label>LED controls</Label>

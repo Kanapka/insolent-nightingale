@@ -7,6 +7,10 @@ namespace Desktop.Network
 
     {
         string State { get; }
+        Action OnConnecting { get; set; }
+        Action OnConnected { get; set; }
+        Action OnDisconnect { get; set; }
+
         void Startup();
         void AddMessage(ICommand message);
         void Disconnect();

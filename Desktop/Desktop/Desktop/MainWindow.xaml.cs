@@ -4,27 +4,39 @@ using Desktop.Network;
 using Desktop.Commands;
 using System.ComponentModel;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
 namespace Desktop
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private string _connectionButtonText;
-        private MessagingService ConnectionService { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private IMessagingService ConnectionService { get; set; }
         public string ConnectionButtonText
         {
             get => _connectionButtonText ?? "-";
-            set => _connectionButtonText = value;
+            set
+            {
+                _connectionButtonText = value;
+                NotifyPropertyChanged();
+            }
         }
         public MainWindow(MessagingService _connectionService) 
         {
             InitializeComponent();
             ConnectionService = _connectionService;
+            ConnectionService.OnConnecting = OnConnecting;
+            ConnectionService.OnConnected = OnConnect;
+            ConnectionService.OnDisconnect = OnDisconnect;
             ConnectionButtonText = "Disconnected";
         }
+
         async void OnRequestTurnLedOn(object sender, EventArgs args)
         {
             ConnectionService.AddMessage(LedCommand.On);
@@ -37,18 +49,28 @@ namespace Desktop
         {
             ConnectionService.AddMessage(LedCommand.Blink);
         }
+        void OnConnect()
+        {
+            ConnectionButtonText = "Connected";
+        }
+        void OnConnecting()
+        {
+            ConnectionButtonText = "Connecting";
+        }
+        void OnDisconnect()
+        {
+            ConnectionButtonText = "Disconnected";
+        }
         async void OnConnectionClick(object sender, EventArgs args)
         {
             switch (ConnectionService.State)
             {
                 case "Open":
                     ConnectionService.Disconnect();
-                    ConnectionButtonText = "Disconnected";
                     break;
                 case "Not connected":
                 case "Closed":
                     ConnectionService.Startup();
-                    ConnectionButtonText = "Connected";
                     break;
                 case "Connecting":
                 case "CloseReceived":
@@ -56,6 +78,10 @@ namespace Desktop
                 default:
                     break;
             }
+        }
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         protected override void OnClosing(CancelEventArgs e)
         {

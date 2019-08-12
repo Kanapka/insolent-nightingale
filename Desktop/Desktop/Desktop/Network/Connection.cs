@@ -10,7 +10,11 @@ namespace Desktop.Network
     {
         public static async Task<ClientWebSocket> OpenConnection(ClientWebSocket socket, Uri _uri)
         {
-            await socket.ConnectAsync(_uri, new CancellationToken());
+            try
+            {
+                await socket.ConnectAsync(_uri, new CancellationToken());
+            }
+            catch (Exception ex) { }
             return socket;
         }
         public static async Task<ClientWebSocket> CloseConnection(ClientWebSocket socket)

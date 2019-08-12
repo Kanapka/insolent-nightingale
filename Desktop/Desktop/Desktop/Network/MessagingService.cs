@@ -21,6 +21,10 @@ namespace Desktop.Network
         private CancellationTokenSource TokenSource { get; }
         private readonly object queueLock = new object();
 
+        public Action OnConnecting { get; set; }
+        public Action OnConnected { get; set; }
+        public Action OnDisconnect { get; set; }
+
         public MessagingService(
             Uri _uri, 
             Queue<ICommand> _outgoingMessages,
@@ -45,16 +49,26 @@ namespace Desktop.Network
                 OutgoingMessages.Enqueue(message);
             }
         }
-        public void Disconnect()
+        public async void Disconnect()
         {
             TokenSource.Cancel();
         }
         protected async void Run(CancellationToken cancellationToken, Uri uri)
         {
             WebSocket = new ClientWebSocket();
+            OnConnecting();
             WebSocket = await Connection.OpenConnection(WebSocket, uri);
+            if(WebSocket.State == WebSocketState.Open)
+            {
+                OnConnected();
+            }
             while (WebSocket.State == WebSocketState.Open)
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    await Cancel(WebSocket);
+                    return;
+                }
                 ICommand message = null;
                 lock (queueLock)
                 {
@@ -64,16 +78,9 @@ namespace Desktop.Network
                 {
                     await SendMessage(WebSocket, message);
                 }
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    await Cancel(WebSocket);
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return;
-                    }
-                }
             }
             System.Diagnostics.Trace.WriteLine($"Connection closed. Reason: {WebSocket.CloseStatus}, Details: {WebSocket.CloseStatusDescription}");
+            OnDisconnect();
         }
 
         protected async Task SendMessage(ClientWebSocket socket, ICommand message)
@@ -85,11 +92,12 @@ namespace Desktop.Network
         {
             await Connection.CloseConnection(socket);
             System.Diagnostics.Trace.WriteLine("Closing connection");
+            OnDisconnect();
         }
 
         public void Dispose()
         {
-            TokenSource.Cancel();
+            Disconnect();
         }
     }
 }
