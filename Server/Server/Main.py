@@ -10,7 +10,7 @@ class Consumer(threading.Thread):
 
     async def consumeSingle(self):
         if(self.queue.empty()):
-            await asyncio.sleep(3)
+            await asyncio.sleep(0.05)
         else:
             while(not self.queue.empty()):
                 print("Found message in queue:")
@@ -21,7 +21,6 @@ class Consumer(threading.Thread):
 
     async def consume(self):
         while True:
-            print("checking for messages")
             await self.consumeSingle()
 
     def run(self):

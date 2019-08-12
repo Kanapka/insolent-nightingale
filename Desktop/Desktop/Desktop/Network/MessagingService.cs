@@ -67,7 +67,10 @@ namespace Desktop.Network
                 if (cancellationToken.IsCancellationRequested)
                 {
                     await Cancel(WebSocket);
-                    cancellationToken.ThrowIfCancellationRequested();
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
                 }
             }
             System.Diagnostics.Trace.WriteLine($"Connection closed. Reason: {WebSocket.CloseStatus}, Details: {WebSocket.CloseStatusDescription}");

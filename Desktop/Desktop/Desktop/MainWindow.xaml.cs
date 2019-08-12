@@ -3,6 +3,7 @@ using System.Windows;
 using Desktop.Network;
 using Desktop.Commands;
 using System.ComponentModel;
+using System.Threading;
 
 namespace Desktop
 {
@@ -11,9 +12,14 @@ namespace Desktop
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string _connectionButtonText;
         private MessagingService ConnectionService { get; set; }
-        public string ConnectionButtonText { get; set; }
-        public MainWindow(MessagingService _connectionService)
+        public string ConnectionButtonText
+        {
+            get => _connectionButtonText ?? "-";
+            set => _connectionButtonText = value;
+        }
+        public MainWindow(MessagingService _connectionService) 
         {
             InitializeComponent();
             ConnectionService = _connectionService;
