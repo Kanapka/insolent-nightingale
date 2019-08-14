@@ -8,6 +8,8 @@
         Title="MainWindow" 
         Height="345.67" 
         Width="586.183"
+        KeyDown="OnKeyDown"
+        KeyUp="OnKeyUp"
         Name="Main">
     <Grid Margin="0,0,3.2,0">
         <Grid.ColumnDefinitions>

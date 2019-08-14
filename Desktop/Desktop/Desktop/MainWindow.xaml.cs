@@ -79,6 +79,14 @@ namespace Desktop
                     break;
             }
         }
+        async void OnKeyDown(object sender, EventArgs args)
+        {
+            ;
+        }
+        async void OnKeyUp(object sender, EventArgs args)
+        {
+            ;
+        }
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

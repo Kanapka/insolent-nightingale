@@ -66,6 +66,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\MobilityCommand.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -74,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Commands\LedCommand.cs" />
     <Compile Include="Modules\LedModule.cs" />
+    <Compile Include="Modules\MobilityModule.cs" />
     <Compile Include="Modules\Module.cs" />
     <Compile Include="Network\Connection.cs" />
     <Compile Include="Network\IMessagingService.cs" />
