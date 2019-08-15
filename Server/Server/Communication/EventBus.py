@@ -1,38 +1,47 @@
-from Communication.Server import Server
+from Communication.Message import Message
+from Physical.BaseModule import BaseModule
 from queue import Queue
 import threading
 import asyncio
 
 class EventBus(threading.Thread):
-    def __init__(self, _queue):
+
+    __instance = None
+
+    def __new__(cls):
+        if EventBus.__instance is None:
+            EventBus.__instance = threading.Thread.__new__(cls)
+        return EventBus.__instance
+
+    def __init__(self, _queue: Queue):
         threading.Thread.__init__(self)
         self.queue = _queue
-        self.registered_listeners = dict()
+        self.registered_listeners = list()
 
     def process_messages(self):
-        while(not self.queue.empty()):
-            message = self.queue.get()
-            print(f'Found message in queue')
-            for key in filter(lambda x: x == message['Module']['Name'], self.registered_listeners):
-                self.registered_listeners[key].process(message)
+        message = self.queue.get()
+        print(f'Found message in queue')
+        for listener in filter(lambda x: x.message_type == message.type, self.registered_listeners):
+            listener.process(message)
 
     async def loop(self):
-        while True:
-            if(self.queue.empty()):
-                await asyncio.sleep(0.05)
-            else:
-                self.process_messages()
+        async for message in self.queue:
+            self.process_messages()
 
-    def register(self, listener):
-        self.registered_listeners[listener.get_name()] = listener
+    def register(self, module: BaseModule, message_type: str):
+        self.registered_listeners.append = Listener(module, message_type)
 
-    def unregister(self, listener_name):
-        self.registered_listeners.pop(listener_name, 'default');
+    def unregister(self, listener_name: str):
+        self.registered_listeners = filter(lambda x: x.module.get_name() != listener_name, self.registered_listeners)
 
-    def post_message(self, message):
+    def post_message(self, message: Message):
         self.queue.put(message)
 
     def run(self):
-        print ("Starting consumer")
+        print ("Starting message bus")
         asyncio.run(self.loop())
 
+class Listener: 
+    def __init__(self, module: BaseModule, messsage_type: str):
+        self.module = module
+        self.message_type = messsage_type

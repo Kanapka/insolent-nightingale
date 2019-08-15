@@ -1,0 +1,5 @@
+setup.py
+nightingale.egg-info/PKG-INFO
+nightingale.egg-info/SOURCES.txt
+nightingale.egg-info/dependency_links.txt
+nightingale.egg-info/top_level.txt

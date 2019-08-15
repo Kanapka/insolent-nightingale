@@ -1,5 +1,4 @@
-﻿using Desktop.Modules;
-namespace Desktop.Commands
+﻿namespace Desktop.Commands
 {
     public class LedCommand : ICommand
     {
@@ -8,7 +7,7 @@ namespace Desktop.Commands
             Payload = _payload;
         }
 
-        public IModule Module => new LedModule();
+        public string Type => CommandTypes.Led;
 
         public static LedCommand On => new LedCommand("On");
         public static LedCommand Off => new LedCommand("Off");
@@ -18,7 +17,7 @@ namespace Desktop.Commands
 
         public override string ToString()
         {
-            return $"For module: {Module.Name}, command: {Payload}";
+            return $"{Type}, command: {Payload}";
         }
     }
 }

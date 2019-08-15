@@ -1,21 +1,36 @@
 from gpiozero import Robot, DistanceSensor, DigitalOutputDevice
 from .BaseModule import BaseModule
+from ..Communication.Message import Message, MessageType
+from ..Communication.EventBus import EventBus
 
 class MobilityModule(BaseModule):
-    def _init_(self):
-        self.robot = Robot(left = (23, 24, 18), right =(16, 20, 12),)
+
+    def __init__(self, robot : Robot):
+        self.robot = robot
 
     def power_up(self):
         super().power_up()
+        EventBus().register(self, MessageType.MovementCommand)
 
     def power_down(self):
-        pass
+        super().power_down()
+        self.robot.close()
         
     def get_name(self):
         return "Mobility"
     
-    def process(self, message):
-        print(f'Mobility module recieved a message {message["Payload"]}')
+    def process(self, message: Message):
+        print(f'Mobility module recieved a message {message.payload}')
+        if message.payload == 'Forward':
+            self.forward()
+        elif message.payload == 'Backward':
+            self.backward()
+        elif message.payload == 'Left':
+            self.left()
+        elif message.payload == 'Right':
+            self.right()
+        else:
+            self.stop_moving();
 
     def forward(self):
         self.robot.forward()
