@@ -1,6 +1,12 @@
 class BaseModule:
+    def power_up(self):
+        print(f'Module {self.get_name()} powering up')
+
+    def power_down(self):
+        print(f'Module {self.get_name()} powering down')
+
     def process(self, message):
-        print(f'Module {self.name} processing message {message}')
+        print(f'Module {self.get_name()} processing message {message}')
 
     def get_name(self):
         return "Base module"

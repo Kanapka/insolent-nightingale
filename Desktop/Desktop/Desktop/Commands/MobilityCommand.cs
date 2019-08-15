@@ -17,4 +17,5 @@ namespace Desktop.Commands
         public MobilityCommand Right => new MobilityCommand("Right");
         public MobilityCommand Stop => new MobilityCommand("Stop");
     }
+
 }
