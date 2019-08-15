@@ -6,11 +6,11 @@ class Message:
             self.message_type = dictionary["Type"]
             self.payload = dictionary ["Payload"]
 
-        def set_type(type: str):
-            self.message_type = type
+    def set_type(self, message_type: str):
+        self.message_type = message_type
 
-        def set_payload(payload):
-            self.payload = payload
+    def set_payload(self, payload):
+        self.payload = payload
 
 class MessageType:
     MovementCommand = "MovementCommand"

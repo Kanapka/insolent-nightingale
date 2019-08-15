@@ -3,7 +3,7 @@ import asyncio
 import threading
 import websockets
 import json
-from .Message import Message
+from Communication.Message import Message
 
 class Server(threading.Thread):
     async def connectionHandler(self, websocket):

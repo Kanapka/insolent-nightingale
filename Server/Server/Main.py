@@ -6,8 +6,6 @@ from Physical.LedModule import LedModule
 
 from gpiozero import DistanceSensor, Robot, LED
 from queue import Queue
-import threading
-import asyncio
 
 
 q = Queue()

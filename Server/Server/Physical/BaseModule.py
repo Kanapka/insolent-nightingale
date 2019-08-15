@@ -1,5 +1,5 @@
-from nightingale.Communication.EventBus import EventBus
-from ..Communication.Message import Message
+from Communication.EventBus import EventBus
+from Communication.Message import Message
 
 class BaseModule:
 

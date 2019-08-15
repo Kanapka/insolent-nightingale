@@ -1,7 +1,7 @@
-from gpiozero import Robot, DistanceSensor, DigitalOutputDevice
-from .BaseModule import BaseModule
-from ..Communication.Message import Message, MessageType
-from ..Communication.EventBus import EventBus
+from gpiozero import Robot
+from Physical.BaseModule import BaseModule
+from Communication.Message import Message, MessageType
+from Communication.EventBus import EventBus
 
 class MobilityModule(BaseModule):
 
@@ -30,25 +30,25 @@ class MobilityModule(BaseModule):
         elif message.payload == 'Right':
             self.right()
         else:
-            self.stop_moving();
+            self.stop_moving()
 
     def forward(self):
         self.robot.forward()
         print ("Going forward")
 
-    def reverse(self):
+    def backward(self):
         print ("Reversing")
         self.robot.backward()
 
     def right(self):
-        print ("Turning right");
+        print ("Turning right")
         self.robot.right()
 
     def left(self):
-        print ("Turning left");
+        print ("Turning left")
         self.robot.left()
 
     def stop_moving(self): 
-        print ("Stopped moving");
+        print ("Stopped moving")
         self.robot.stop()
 

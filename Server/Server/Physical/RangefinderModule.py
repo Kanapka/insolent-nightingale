@@ -1,6 +1,6 @@
-from .BaseModule import BaseModule
-from ..Communication.Message import Message, MessageType
-from ..Communication.EventBus import EventBus
+from Physical.BaseModule import BaseModule
+from Communication.Message import Message, MessageType
+from Communication.EventBus import EventBus
 from gpiozero import DistanceSensor
 
 class RangefinderModule(BaseModule):

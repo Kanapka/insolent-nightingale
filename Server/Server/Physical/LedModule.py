@@ -1,7 +1,7 @@
-from .BaseModule import BaseModule
+from Physical.BaseModule import BaseModule
 from gpiozero import LED
-from ..Communication.Message import Message, MessageType
-from ..Communication.EventBus import EventBus
+from Communication.Message import Message, MessageType
+from Communication.EventBus import EventBus
 
 class LedModule(BaseModule):
     def __init__(self, led: LED):
@@ -13,7 +13,7 @@ class LedModule(BaseModule):
 
     def power_down(self):
         super().power_down()
-        self.led.close();
+        self.led.close()
 
     def get_name(self):
         return "LedModule"
@@ -34,6 +34,6 @@ class LedModule(BaseModule):
         self.led.off()
 
     def blink(self):
-        self.led.blink(0.5, 0.25);
+        self.led.blink(0.5, 0.25)
 
 
