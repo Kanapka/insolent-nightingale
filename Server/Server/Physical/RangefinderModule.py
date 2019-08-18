@@ -4,12 +4,13 @@ from Communication.EventBus import EventBus
 from gpiozero import DistanceSensor
 
 class RangefinderModule(BaseModule):
-    def __init__(self, rangefinder: DistanceSensor):
+    def __init__(self, rangefinder: DistanceSensor, event_bus: EventBus):
         self.rangefinder = rangefinder
+        self.event_bus = event_bus
 
     def power_up(self):
-        super().power_up()
-        EventBus().register(self, MessageType.RangeCommand)
+        print ("Rangefinder module powering up")
+        self.event_bus.register(self, MessageType.RangeCommand)
 
     def power_down(self):
         super().power_down()
@@ -19,6 +20,5 @@ class RangefinderModule(BaseModule):
         response = Message()
         response.set_payload(self.rangefinder.distance)
         response.set_type(MessageType.RangeResponse)
-        bus = EventBus()
-        bus.post_message(response)
+        self.event_bus.post_message(response)
         

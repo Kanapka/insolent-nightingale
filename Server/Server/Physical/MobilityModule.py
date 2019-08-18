@@ -5,12 +5,13 @@ from Communication.EventBus import EventBus
 
 class MobilityModule(BaseModule):
 
-    def __init__(self, robot: Robot):
+    def __init__(self, robot: Robot, event_bus: EventBus):
         self.robot = robot
+        self.event_bus = event_bus
 
     def power_up(self):
         super().power_up()
-        EventBus().register(self, MessageType.MovementCommand)
+        self.event_bus.register(self, MessageType.MovementCommand)
 
     def power_down(self):
         super().power_down()

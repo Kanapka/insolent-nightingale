@@ -15,22 +15,7 @@ class EventBus(threading.Thread):
     #    return EventBus.__instance
 
     def __init__(self):
-        threading.Thread.__init__(self)
-        self.queue = None
         self.registered_listeners = list()
-
-    def process_messages(self):
-        message = self.queue.get()
-        print(f'Found message in queue')
-        for listener in filter(lambda x: x.message_type == message.type, self.registered_listeners):
-            listener.process(message)
-
-    async def loop(self):
-        while True:
-            if(self.queue.empty):
-                sleep(0.05)
-            else:
-                self.process_messages()
 
     def register(self, module: BaseModule, message_type: str):
         self.registered_listeners.append(Listener(module, message_type))
@@ -39,17 +24,8 @@ class EventBus(threading.Thread):
         self.registered_listeners = filter(lambda x: x.module.get_name() != listener_name, self.registered_listeners)
 
     def post_message(self, message: Message):
-        self.queue.put(message)
-
-    def run(self):
-        print ("Starting message bus")
-        asyncio.run(self.loop())
-        
-    def get_queue(self):
-        return self.queue
-
-    def setQueue(self, q):
-        self.queue = q
+        for listener in filter(lambda x: x.message_type == message.message_type, self.registered_listeners):
+            listener.module.process(message)
 
 class Listener: 
     def __init__(self, module: BaseModule, messsage_type: str):

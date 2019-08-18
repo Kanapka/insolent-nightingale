@@ -4,15 +4,14 @@ from Communication.Message import Message, MessageType
 from Communication.EventBus import EventBus
 
 class LedModule(BaseModule):
-    def __init__(self, led: LED):
+    def __init__(self, led: LED, event_bus: EventBus):
         self.led = led
+        self.event_bus = event_bus
 
     def power_up(self):
-        super().power_up()
-        EventBus().register(self, MessageType.LedCommand)
+        self.event_bus.register(self, MessageType.LedCommand)
 
     def power_down(self):
-        super().power_down()
         self.led.close()
 
     def get_name(self):

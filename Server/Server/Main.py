@@ -11,21 +11,18 @@ from queue import Queue
 Device.pin_factory = MockFactory()
 
 
-q = Queue()
 event_bus = EventBus()
-event_bus.setQueue(q)
-server = Server(q)
+server = Server(event_bus)
 
-#mobility = MobilityModule(Robot(left = (23, 24, 12), right = (16, 20, 13)))
-led = LedModule(LED(37))
-rangefinder = RangefinderModule(DistanceSensor(echo = 5, trigger = 6 ,max_distance = 2))
+#mobility = MobilityModule(Robot(left = (23, 24, 12), right = (16, 20, 13)), event_bus)
+led = LedModule(LED(37), event_bus)
+rangefinder = RangefinderModule(DistanceSensor(echo = 5, trigger = 6 ,max_distance = 2), event_bus)
 
 #mobility.power_up()
 led.power_up()
 rangefinder.power_up()
 
-server.start()
-event_bus.start()
+server.run()
 
 
 
