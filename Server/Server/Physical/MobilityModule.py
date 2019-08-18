@@ -5,7 +5,7 @@ from Communication.EventBus import EventBus
 
 class MobilityModule(BaseModule):
 
-    def __init__(self, robot : Robot):
+    def __init__(self, robot: Robot):
         self.robot = robot
 
     def power_up(self):

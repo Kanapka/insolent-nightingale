@@ -1,5 +1,6 @@
 from Communication.Message import Message
 from Physical.BaseModule import BaseModule
+from time import sleep
 from queue import Queue
 import threading
 import asyncio
@@ -8,14 +9,14 @@ class EventBus(threading.Thread):
 
     __instance = None
 
-    def __new__(cls):
-        if EventBus.__instance is None:
-            EventBus.__instance = threading.Thread.__new__(cls)
-        return EventBus.__instance
+    #def __new__(cls):
+    #    if EventBus.__instance is None:
+    #        EventBus.__instance = threading.Thread.__new__(cls)
+    #    return EventBus.__instance
 
-    def __init__(self, _queue: Queue):
+    def __init__(self):
         threading.Thread.__init__(self)
-        self.queue = _queue
+        self.queue = None
         self.registered_listeners = list()
 
     def process_messages(self):
@@ -25,11 +26,14 @@ class EventBus(threading.Thread):
             listener.process(message)
 
     async def loop(self):
-        async for message in self.queue:
-            self.process_messages()
+        while True:
+            if(self.queue.empty):
+                sleep(0.05)
+            else:
+                self.process_messages()
 
     def register(self, module: BaseModule, message_type: str):
-        self.registered_listeners.append = Listener(module, message_type)
+        self.registered_listeners.append(Listener(module, message_type))
 
     def unregister(self, listener_name: str):
         self.registered_listeners = filter(lambda x: x.module.get_name() != listener_name, self.registered_listeners)
@@ -40,6 +44,12 @@ class EventBus(threading.Thread):
     def run(self):
         print ("Starting message bus")
         asyncio.run(self.loop())
+        
+    def get_queue(self):
+        return self.queue
+
+    def setQueue(self, q):
+        self.queue = q
 
 class Listener: 
     def __init__(self, module: BaseModule, messsage_type: str):

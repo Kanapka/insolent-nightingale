@@ -1,5 +1,5 @@
-from Communication.EventBus import EventBus
-from Communication.Message import Message
+from Communication import EventBus
+from Communication import Message
 
 class BaseModule:
 

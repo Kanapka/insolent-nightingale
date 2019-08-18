@@ -29,6 +29,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Communication\Server.py" />
+    <Compile Include="Communication\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Main.py">
       <SubType>Code</SubType>
     </Compile>
@@ -44,7 +47,13 @@
     <Compile Include="Physical\RangefinderModule.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Physical\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="setup.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="__init__.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
