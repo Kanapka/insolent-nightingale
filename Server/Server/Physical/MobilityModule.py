@@ -15,6 +15,7 @@ class MobilityModule(BaseModule):
 
     def power_down(self):
         super().power_down()
+        self.event_bus.unregister(self.get_name())
         self.robot.close()
         
     def get_name(self):

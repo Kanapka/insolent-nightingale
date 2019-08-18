@@ -13,7 +13,7 @@ class RangefinderModule(BaseModule):
         self.event_bus.register(self, MessageType.RangeCommand)
 
     def power_down(self):
-        super().power_down()
+        self.event_bus.unregister(self.get_name())
         self.rangefinder.close()
 
     def process(self, message: Message):

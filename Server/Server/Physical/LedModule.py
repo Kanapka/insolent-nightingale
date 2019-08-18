@@ -12,6 +12,7 @@ class LedModule(BaseModule):
         self.event_bus.register(self, MessageType.LedCommand)
 
     def power_down(self):
+        self.event_bus.unregister(self.get_name())
         self.led.close()
 
     def get_name(self):

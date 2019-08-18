@@ -14,7 +14,7 @@ Device.pin_factory = MockFactory()
 event_bus = EventBus()
 server = Server(event_bus)
 
-#mobility = MobilityModule(Robot(left = (23, 24, 12), right = (16, 20, 13)), event_bus)
+mobility = MobilityModule(Robot(left = (23, 24, 12), right = (16, 20, 13), pwm=False), event_bus)
 led = LedModule(LED(37), event_bus)
 rangefinder = RangefinderModule(DistanceSensor(echo = 5, trigger = 6 ,max_distance = 2), event_bus)
 
