@@ -18,7 +18,7 @@ mobility = MobilityModule(Robot(left = (23, 24, 12), right = (16, 20, 13), pwm=F
 led = LedModule(LED(37), event_bus)
 rangefinder = RangefinderModule(DistanceSensor(echo = 5, trigger = 6 ,max_distance = 2), event_bus)
 
-#mobility.power_up()
+mobility.power_up()
 led.power_up()
 rangefinder.power_up()
 

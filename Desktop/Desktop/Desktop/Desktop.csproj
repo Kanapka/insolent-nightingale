@@ -74,9 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\LedCommand.cs" />
-    <Compile Include="Modules\LedModule.cs" />
-    <Compile Include="Modules\MobilityModule.cs" />
-    <Compile Include="Modules\Module.cs" />
+    <Compile Include="Movement\MovementController.cs" />
     <Compile Include="Network\Connection.cs" />
     <Compile Include="Network\IMessagingService.cs" />
     <Compile Include="Network\MessagingService.cs" />

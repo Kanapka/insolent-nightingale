@@ -3,7 +3,9 @@ using System.Windows;
 using Desktop.Network;
 using Desktop.Commands;
 using System.ComponentModel;
+using Desktop.Movement;
 using System.Threading;
+using System.Windows.Input;
 using System.Runtime.CompilerServices;
 
 namespace Desktop
@@ -81,11 +83,28 @@ namespace Desktop
         }
         async void OnKeyDown(object sender, EventArgs args)
         {
-            ;
+            var controller = new MovementController(this.ConnectionService);
+            var key = (args as KeyEventArgs)?.Key;
+            switch (key)
+            {
+                case Key.W:
+                    controller.Forward();
+                    break;
+                case Key.A:
+                    controller.TurnLeft();
+                    break;
+                case Key.S:
+                    controller.Backward();
+                    break;
+                case Key.D:
+                    controller.TurnRight();
+                    break;
+            }
         }
         async void OnKeyUp(object sender, EventArgs args)
         {
-            ;
+            var controller = new MovementController(this.ConnectionService);
+            controller.Stop();
         }
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {

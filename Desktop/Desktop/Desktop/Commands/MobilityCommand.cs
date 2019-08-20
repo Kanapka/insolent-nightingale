@@ -9,11 +9,11 @@
             Payload = _payload;
         }
 
-        public MobilityCommand Forward => new MobilityCommand("Forward");
-        public MobilityCommand Reverse => new MobilityCommand("Backward");
-        public MobilityCommand Left => new MobilityCommand("Left");
-        public MobilityCommand Right => new MobilityCommand("Right");
-        public MobilityCommand Stop => new MobilityCommand("Stop");
+        public static MobilityCommand Forward => new MobilityCommand("Forward");
+        public static MobilityCommand Reverse => new MobilityCommand("Backward");
+        public static MobilityCommand Left => new MobilityCommand("Left");
+        public static MobilityCommand Right => new MobilityCommand("Right");
+        public static MobilityCommand Stop => new MobilityCommand("Stop");
     }
 
 }

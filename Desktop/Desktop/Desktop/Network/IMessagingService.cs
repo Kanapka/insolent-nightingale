@@ -3,7 +3,7 @@ using System;
 
 namespace Desktop.Network
 {
-    interface IMessagingService : IDisposable
+    public interface IMessagingService : IDisposable
 
     {
         string State { get; }
