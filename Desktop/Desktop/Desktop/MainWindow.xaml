@@ -10,6 +10,7 @@
         Width="586.183"
         KeyDown="OnKeyDown"
         KeyUp="OnKeyUp"
+        Closing="Main_Closing"
         Name="Main">
     <Grid Margin="0,0,3.2,0">
         <Grid.ColumnDefinitions>

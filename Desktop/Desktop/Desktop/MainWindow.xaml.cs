@@ -38,7 +38,6 @@ namespace Desktop
             ConnectionService.OnDisconnect = OnDisconnect;
             ConnectionButtonText = "Disconnected";
         }
-
         async void OnRequestTurnLedOn(object sender, EventArgs args)
         {
             ConnectionService.AddMessage(LedCommand.On);
@@ -110,10 +109,10 @@ namespace Desktop
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        protected override void OnClosing(CancelEventArgs e)
+
+        private void Main_Closing(object sender, CancelEventArgs e)
         {
-            base.OnClosing(e);
-            ConnectionService.Dispose();
+            ConnectionService.Disconnect();
         }
     }
 }

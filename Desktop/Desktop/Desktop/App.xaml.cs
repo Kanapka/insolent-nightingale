@@ -22,8 +22,7 @@ namespace Desktop
             connectionService = new MessagingService(
                 new Uri("ws://localhost:443"),
                 new Queue<ICommand>(),
-                new Queue<ICommand>(),
-                new System.Threading.CancellationTokenSource()
+                new Queue<ICommand>()
             );
 
             var MainWindow = new MainWindow(connectionService);

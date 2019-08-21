@@ -17,8 +17,8 @@ namespace Desktop.Network
         private Uri Uri { get; }
         private Queue<ICommand> OutgoingMessages { get; }
         private Queue<ICommand> IncomingMessages { get; }
-        private CancellationToken Token { get; }
-        private CancellationTokenSource TokenSource { get; }
+        private CancellationToken Token { get; set; }
+        private CancellationTokenSource TokenSource { get; set; }
         private readonly object queueLock = new object();
 
         public Action OnConnecting { get; set; }
@@ -28,17 +28,16 @@ namespace Desktop.Network
         public MessagingService(
             Uri _uri, 
             Queue<ICommand> _outgoingMessages,
-            Queue<ICommand> _incomingMessages,
-            CancellationTokenSource _tokenSource)
+            Queue<ICommand> _incomingMessages)
         {
             Uri = _uri;
             OutgoingMessages = _outgoingMessages;
-            IncomingMessages = _incomingMessages;
-            TokenSource = _tokenSource;
-            Token = TokenSource.Token;
+            IncomingMessages = _incomingMessages;;
         }
         public void Startup()
         {
+            TokenSource = new CancellationTokenSource();
+            Token = TokenSource.Token;
             void RunWithToken() => Run(Token, Uri);
             var task = Task.Run(RunWithToken);
         }
@@ -67,7 +66,7 @@ namespace Desktop.Network
                 if (cancellationToken.IsCancellationRequested)
                 {
                     await Cancel(WebSocket);
-                    return;
+                    break;
                 }
                 ICommand message = null;
                 lock (queueLock)
