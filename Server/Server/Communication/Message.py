@@ -4,7 +4,7 @@ class Message:
         self.payload = ""
         if dictionary != None:
             self.message_type = dictionary["Type"]
-            self.payload = dictionary ["Payload"]
+            self.payload = dictionary["Payload"]
 
     def set_type(self, message_type: str):
         self.message_type = message_type
@@ -17,3 +17,5 @@ class MessageType:
     LedCommand = "LedCommand"
     RangeCommand = "RangeCommand"
     RangeResponse = "RangeResponse"
+    DistanceTravelled = "DistanceTravelled"
+    RotationPerformed = "RotationPerformed"

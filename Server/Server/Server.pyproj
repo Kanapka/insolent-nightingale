@@ -44,6 +44,9 @@
     <Compile Include="Physical\BaseModule.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Physical\NavigationModule.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Physical\RangefinderModule.py">
       <SubType>Code</SubType>
     </Compile>
