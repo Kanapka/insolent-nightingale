@@ -3,6 +3,7 @@ from Physical.RangefinderModule import RangefinderModule
 from Communication.EventBus import EventBus
 from Communication.Message import Message, MessageType
 from Navigation.Environment import Environment, Position
+import threading
 from time import sleep
 import asyncio
 import numpy as np
@@ -18,6 +19,10 @@ class NavigationModule(BaseModule):
         self.event_bus.register(self, MessageType.RotationPerformed)
         self.environment = Environment()
         self.positon = Position(Environment.cell_count / 2, Environment.cell_count / 2)
+
+        self.updater = NavigationUpdater()
+        self.updater.set_event_bus(self.event_bus)
+        self.updater.start()
 
         #asyncio.get_event_loop().run_until_complete(self.update_state())
         #asyncio.get_event_loop().run_forever()
@@ -47,10 +52,27 @@ class NavigationModule(BaseModule):
         pass
 
     async def update_state(self):
+        pass
         #print("Update once?")
         #while(True):
         #    print('Updating state')
         #    sleep(1)
+class NavigationUpdater(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.event_bus = None
+
+    def set_event_bus(self, bus: EventBus):
+        self.event_bus = bus
+
+    def run(self):
+        while(True):
+            print ('Updating')
+            message = Message()
+            message.set_payload("lol")
+            message.set_type(MessageType.RangeCommand)
+            self.event_bus.post_message(message)
+            sleep(1)
 
 
 
