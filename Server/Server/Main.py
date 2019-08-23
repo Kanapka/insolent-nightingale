@@ -2,7 +2,7 @@ from Communication.Server import Server
 from Communication.EventBus import EventBus
 from Physical.MobilityModule import MobilityModule
 from Physical.RangefinderModule import RangefinderModule
-from Physical.NavigationModule import NavigationModule
+from Navigation.NavigationModule import NavigationModule
 from Physical.LedModule import LedModule
 
 from gpiozero import DistanceSensor, Robot, LED, Device
@@ -25,7 +25,9 @@ led.power_up()
 rangefinder.power_up()
 navigation.power_up()
 
-server.run()
+navigation.environment.dump();
+
+#server.run()
 
 
 
