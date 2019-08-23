@@ -52,6 +52,10 @@ class NavigationUpdater(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.event_bus = None
+class NavigationUpdater(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.event_bus = None
 
     def set_event_bus(self, bus: EventBus):
         self.event_bus = bus
