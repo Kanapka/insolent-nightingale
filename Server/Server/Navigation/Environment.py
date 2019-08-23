@@ -1,5 +1,5 @@
 import numpy as np
-from Navigation.MapDumper import MapDumper
+from PIL import Image
 
 class Environment:
     unknown = 0
@@ -12,9 +12,6 @@ class Environment:
         self.area = np.zeros( \
             (Environment.cell_count, Environment.cell_count), \
             dtype = bool)
-
-    def dump(self):
-        MapDumper.dump_to_file(self)
 
     def dump_to_file(self):
         img_size = Environment.cell_count

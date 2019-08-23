@@ -47,7 +47,7 @@ class NavigationModule(BaseModule):
         pass
 
     async def update_state(self):
-        pass
+        #print("Update once?")
         #while(True):
         #    print('Updating state')
         #    sleep(1)

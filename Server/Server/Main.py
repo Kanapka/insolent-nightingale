@@ -25,9 +25,9 @@ led.power_up()
 rangefinder.power_up()
 navigation.power_up()
 
-navigation.environment.dump();
+#navigation.environment.dump_to_file()
 
-#server.run()
+server.run()
 
 
 
