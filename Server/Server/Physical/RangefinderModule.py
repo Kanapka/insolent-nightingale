@@ -18,7 +18,7 @@ class RangefinderModule(BaseModule):
 
     def process(self, message: Message):
         response = Message()
-        response.set_payload(self.rangefinder.distance)
+        response.set_payload("FAKE")#self.rangefinder.distance)
         response.set_type(MessageType.RangeResponse)
         self.event_bus.post_message(response)
         

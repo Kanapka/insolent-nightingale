@@ -9,11 +9,6 @@ class EventBus(threading.Thread):
 
     __instance = None
 
-    #def __new__(cls):
-    #    if EventBus.__instance is None:
-    #        EventBus.__instance = threading.Thread.__new__(cls)
-    #    return EventBus.__instance
-
     def __init__(self):
         self.registered_listeners = list()
 
