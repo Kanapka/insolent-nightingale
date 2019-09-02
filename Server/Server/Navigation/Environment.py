@@ -15,11 +15,11 @@ class Environment:
 
     def dump_to_file(self):
         img_size = Environment.cell_count
-        image = Image.new('L', (img_size, img_size), 0)
+        image = Image.new('L', (Environment.cell_count, Environment.cell_count), 0)
         px = image.load()
         for i in range(img_size):
             for j in range(img_size):
-                px[i, j] = np.random.randint(0, 255)
+                px[i, j] = self.area[i, j]
         path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'test.png')
         image.save(path)
 

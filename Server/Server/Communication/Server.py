@@ -1,4 +1,3 @@
-
 import asyncio
 import threading
 import websockets
@@ -15,7 +14,7 @@ class Server():
             self.event_bus.post_message(message)
 
     def __init__(self, event_bus):
-        self.initialize = websockets.serve(self.connectionHandler, "127.0.0.1", 443)
+        self.initialize = websockets.serve(self.connectionHandler, "0.0.0.0", 443)
         self.event_bus = event_bus
 
     def run(self):
