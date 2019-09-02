@@ -11,32 +11,33 @@ import numpy as np
 class NavigationModule(BaseModule):
     def __init__(self, event_bus: EventBus):
         self.event_bus = event_bus
+        self.enabled = False
 
     def power_up(self):
         print ("Navigation powering up")
+        self.enabled = True
         self.event_bus.register(self, MessageType.RangeResponse)
         self.event_bus.register(self, MessageType.DistanceTravelled)
         self.event_bus.register(self, MessageType.RotationPerformed)
         self.environment = Environment()
         self.positon = Position(Environment.cell_count / 2, Environment.cell_count / 2)
 
-        self.updater = NavigationUpdater()
-        self.updater.set_event_bus(self.event_bus)
+        self.updater = NavigationUpdater(self.event_bus)
         self.updater.start()
 
     def power_down(self):
+        self.updater._stop()
         self.event_bus.unregister(self.get_name())
 
     def get_name(self):
         return "Navigation module"
 
     def process(self, message: Message):
-        print (f'Navigation recieved message: {message.payload} ')
-        if(message.message_type is MessageType.RangeResponse):
+        if(message.message_type == MessageType.RangeResponse):
             self.registerContact(message)
-        elif message.message_type is MessageType.DistanceTravelled:
+        elif message.message_type == MessageType.DistanceTravelled:
             self.registerDistance(message)
-        elif message.message_type is MessageType.RotationPerformed:
+        elif message.message_type == MessageType.RotationPerformed:
             self.registerRotation(message)
 
     def registerDistance(self, message: Message):
@@ -49,25 +50,17 @@ class NavigationModule(BaseModule):
         pass
 
 class NavigationUpdater(threading.Thread):
-    def __init__(self):
+    def __init__(self, bus: EventBus):
         threading.Thread.__init__(self)
-        self.event_bus = None
-class NavigationUpdater(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-        self.event_bus = None
-
-    def set_event_bus(self, bus: EventBus):
         self.event_bus = bus
 
     def run(self):
         while(True):
             print ('Updating')
             message = Message()
-            message.set_payload("lol")
             message.set_type(MessageType.RangeCommand)
             self.event_bus.post_message(message)
-            sleep(1)
+            sleep(0.5)
 
 
 
