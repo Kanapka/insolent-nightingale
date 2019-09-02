@@ -12,6 +12,9 @@ class NavigationModule(BaseModule):
     def __init__(self, event_bus: EventBus):
         self.event_bus = event_bus
         self.enabled = False
+        self.positon = np.array([Environment.cell_count / 2, Environment.cell_count / 2])
+        self.rotation = 0
+        self.environment = Environment()
 
     def power_up(self):
         print ("Navigation powering up")
@@ -19,8 +22,6 @@ class NavigationModule(BaseModule):
         self.event_bus.register(self, MessageType.RangeResponse)
         self.event_bus.register(self, MessageType.DistanceTravelled)
         self.event_bus.register(self, MessageType.RotationPerformed)
-        self.environment = Environment()
-        self.positon = Position(Environment.cell_count / 2, Environment.cell_count / 2)
 
         self.updater = NavigationUpdater(self.event_bus)
         self.updater.start()
@@ -41,7 +42,13 @@ class NavigationModule(BaseModule):
             self.registerRotation(message)
 
     def registerDistance(self, message: Message):
-        pass
+        distance = message.payload
+        vector = self.heading() * distance
+        vector = vector + self.positon
+        self.environment.register_obstacle(vector)
+
+    def heading():
+        return np.array([np.cos(self.rotation), np.sin(self.rotation)])
 
     def registerRotation(self, message: Message):
         pass
