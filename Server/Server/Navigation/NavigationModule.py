@@ -11,7 +11,7 @@ class NavigationModule(BaseModule):
         self.event_bus = event_bus
         self.enabled = False
         self.positon = np.array([Environment.cell_count / 2, Environment.cell_count / 2])
-        self.rotation = 0
+        self.rotation = 0.0
         self.environment = Environment()
         self.updater = NavigationUpdater(event_bus)
 
@@ -39,7 +39,7 @@ class NavigationModule(BaseModule):
         elif message.message_type == MessageType.RotationPerformed:
             self.registerRotation(message)
 
-    def registerDistance(self, message: Message):
+    def registerContact(self, message: Message):
         distance = message.payload
         vector = self.heading() * distance
         vector = vector + self.positon
@@ -49,10 +49,13 @@ class NavigationModule(BaseModule):
         return np.array([np.cos(self.rotation), np.sin(self.rotation)])
 
     def registerRotation(self, message: Message):
-        pass
+        rotation = message.payload
+        self.rotation += rotation
 
-    def registerContact(self, message: Message):
-        pass
+    def registerDistance(self, message: Message):
+        distance = message.payload
+        vector = self.heading() * distance
+        self.positon += vector
 
 class NavigationUpdater(threading.Thread):
     def __init__(self, bus: EventBus):
