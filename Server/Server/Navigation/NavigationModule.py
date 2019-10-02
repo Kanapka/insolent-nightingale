@@ -1,11 +1,9 @@
 from Physical.BaseModule import BaseModule
-from Physical.RangefinderModule import RangefinderModule
 from Communication.EventBus import EventBus
 from Communication.Message import Message, MessageType
 from Navigation.Environment import Environment
 import threading
 from time import sleep
-import asyncio
 import numpy as np
 
 class NavigationModule(BaseModule):
@@ -15,6 +13,7 @@ class NavigationModule(BaseModule):
         self.positon = np.array([Environment.cell_count / 2, Environment.cell_count / 2])
         self.rotation = 0
         self.environment = Environment()
+        self.updater = NavigationUpdater(event_bus)
 
     def power_up(self):
         print ("Navigation powering up")
@@ -23,11 +22,10 @@ class NavigationModule(BaseModule):
         self.event_bus.register(self, MessageType.DistanceTravelled)
         self.event_bus.register(self, MessageType.RotationPerformed)
 
-        self.updater = NavigationUpdater(self.event_bus)
         self.updater.start()
 
     def power_down(self):
-        self.updater._stop()
+        self.updater.stop()
         self.event_bus.unregister(self.get_name())
 
     def get_name(self):
@@ -47,7 +45,7 @@ class NavigationModule(BaseModule):
         vector = vector + self.positon
         self.environment.register_obstacle(vector)
 
-    def heading():
+    def heading(self):
         return np.array([np.cos(self.rotation), np.sin(self.rotation)])
 
     def registerRotation(self, message: Message):
@@ -68,6 +66,8 @@ class NavigationUpdater(threading.Thread):
             message.set_type(MessageType.RangeCommand)
             self.event_bus.post_message(message)
             sleep(0.5)
+    def stop(self):
+        self._stop()
 
 
 

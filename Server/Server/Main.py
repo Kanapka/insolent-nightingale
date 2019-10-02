@@ -4,9 +4,8 @@ from Physical.MobilityModule import MobilityModule
 from Physical.RangefinderModule import RangefinderModule
 from Navigation.NavigationModule import NavigationModule
 
-from gpiozero import DistanceSensor, Robot, LED, Device
+from gpiozero import DistanceSensor, Robot, Device
 from gpiozero.pins.mock import MockFactory
-from queue import Queue
 import json
 
 configFilePath = "Config/config.json"

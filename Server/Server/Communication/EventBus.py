@@ -1,15 +1,13 @@
 from Communication.Message import Message
 from Physical.BaseModule import BaseModule
-from time import sleep
-from queue import Queue
 import threading
-import asyncio
 
 class EventBus(threading.Thread):
 
     __instance = None
 
     def __init__(self):
+        threading.Thread.__init__(self)
         self.registered_listeners = list()
 
     def register(self, module: BaseModule, message_type: str):

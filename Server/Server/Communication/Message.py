@@ -17,5 +17,8 @@ class MessageType:
     LedCommand = "LedCommand"
     RangeCommand = "RangeCommand"
     RangeResponse = "RangeResponse"
+    DistanceCommand = "DistanceCommand"
     DistanceTravelled = "DistanceTravelled"
+    RotationCommand = "RotationCommand"
     RotationPerformed = "RotationPerformed"
+

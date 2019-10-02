@@ -1,5 +1,6 @@
 import numpy as np
 from PIL import Image
+import os
 
 class Environment:
     unknown = 0
@@ -13,9 +14,9 @@ class Environment:
             (Environment.cell_count, Environment.cell_count), \
             dtype = bool)
 
-    def register_obstacle(position: np.float_):
+    def register_obstacle(self, position: np.float_):
         if(position[0] < Environment.cell_count and position[1] < Environment.cell_count):
-            area[position[0], position[1]] = Environment.occupied
+            self.area[position[0], position[1]] = Environment.occupied
 
     def dump_to_file(self):
         img_size = Environment.cell_count
@@ -28,6 +29,6 @@ class Environment:
         image.save(path)
 
 class Direction: 
-    def __init(self):
+    def __init__(self):
         self.x = 0
         self.y = 0
