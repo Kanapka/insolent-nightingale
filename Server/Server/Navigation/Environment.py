@@ -26,7 +26,6 @@ class Environment:
                 px[i, j] = self.area[i, j]
         path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'test.png')
         image.save(path)
-ns
 
 class Direction: 
     def __init(self):

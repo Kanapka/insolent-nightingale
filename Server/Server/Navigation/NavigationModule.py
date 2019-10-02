@@ -2,7 +2,7 @@ from Physical.BaseModule import BaseModule
 from Physical.RangefinderModule import RangefinderModule
 from Communication.EventBus import EventBus
 from Communication.Message import Message, MessageType
-from Navigation.Environment import Environment, Position
+from Navigation.Environment import Environment
 import threading
 from time import sleep
 import asyncio
