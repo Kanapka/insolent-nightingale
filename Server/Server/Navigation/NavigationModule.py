@@ -69,6 +69,7 @@ class NavigationUpdater(threading.Thread):
             message.set_type(MessageType.RangeCommand)
             self.event_bus.post_message(message)
             sleep(0.5)
+
     def stop(self):
         self._stop()
 

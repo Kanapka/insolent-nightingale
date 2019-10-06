@@ -14,7 +14,10 @@ namespace Desktop.Network
             {
                 await socket.ConnectAsync(_uri, new CancellationToken());
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                ;
+            }
             return socket;
         }
         public static async Task<ClientWebSocket> CloseConnection(ClientWebSocket socket)

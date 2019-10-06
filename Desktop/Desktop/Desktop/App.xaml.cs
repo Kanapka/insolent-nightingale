@@ -20,7 +20,8 @@ namespace Desktop
             base.OnStartup(e);
 
             connectionService = new MessagingService(
-                new Uri("ws://localhost:443"),
+                new Uri("ws://192.168.43.136:443"),
+                //new Uri("ws://localhost:443"),
                 new Queue<ICommand>(),
                 new Queue<ICommand>()
             );
