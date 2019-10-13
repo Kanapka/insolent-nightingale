@@ -21,6 +21,7 @@ class NavigationModule(BaseModule):
         self.event_bus.register(self, MessageType.RangeResponse)
         self.event_bus.register(self, MessageType.DistanceTravelled)
         self.event_bus.register(self, MessageType.RotationPerformed)
+        self.event_bus.register(self, MessageType.DumpMap)
 
         self.updater.start()
 
@@ -38,6 +39,8 @@ class NavigationModule(BaseModule):
             self.registerDistance(message)
         elif message.message_type == MessageType.RotationPerformed:
             self.registerRotation(message)
+        elif message.message_type == MessageType.DumpMap:
+            self.environment.dump_to_file()
 
     def registerContact(self, message: Message):
         distance = message.payload
@@ -64,7 +67,6 @@ class NavigationUpdater(threading.Thread):
 
     def run(self):
         while(True):
-            print ('Updating')
             message = Message()
             message.set_type(MessageType.RangeCommand)
             self.event_bus.post_message(message)

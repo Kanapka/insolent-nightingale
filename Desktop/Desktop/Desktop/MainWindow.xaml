@@ -20,6 +20,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel HorizontalAlignment="Left" Margin="0" Width="150">
             <Button Height="30" Width="140" Click="OnConnectionClick" Content="{Binding ConnectionButtonText, ElementName=Main, Mode=OneWay}"></Button>
+            <Button Height="30" Width="140" Click="OnMapRequestClick" Content="Dump map"></Button>
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Margin="0" Width="80">
             <Label>LED controls</Label>

@@ -21,4 +21,5 @@ class MessageType:
     DistanceTravelled = "DistanceTravelled"
     RotationCommand = "RotationCommand"
     RotationPerformed = "RotationPerformed"
+    DumpMap = "DumpMap"
 

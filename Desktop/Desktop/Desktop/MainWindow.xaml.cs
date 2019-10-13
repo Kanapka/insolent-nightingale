@@ -105,6 +105,11 @@ namespace Desktop
             var controller = new MovementController(this.ConnectionService);
             controller.Stop();
         }
+        async void OnMapRequestClick(object sender, EventArgs args)
+        {
+            ConnectionService.AddMessage(MapCommand.New);
+        }
+
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

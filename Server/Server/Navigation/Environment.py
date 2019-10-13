@@ -15,6 +15,7 @@ class Environment:
             dtype = bool)
 
     def register_obstacle(self, position: np.float_):
+        position = position.astype(int)
         if(position[0] < Environment.cell_count and position[1] < Environment.cell_count):
             self.area[position[0], position[1]] = Environment.occupied
 
@@ -25,7 +26,7 @@ class Environment:
         for i in range(img_size):
             for j in range(img_size):
                 px[i, j] = self.area[i, j]
-        path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop', 'test.png')
+        path = os.path.join(os.path.join(os.environ['USERPROFILE']),'test.png')
         image.save(path)
 
 class Direction: 
