@@ -1,0 +1,18 @@
+{
+  "mobility": {
+    "left": {
+      "inputA": 21,
+      "inputB": 17,
+      "pwm": 19
+    },
+    "right": {
+      "inputA": 16,
+      "inputB": 20,
+      "pwm": 12
+    }
+  },
+  "rangefinder": {
+    "echo": 5,
+    "trigger": 6
+  }
+}

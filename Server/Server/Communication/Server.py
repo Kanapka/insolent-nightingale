@@ -1,5 +1,4 @@
 import asyncio
-import threading
 import websockets
 import json
 from Communication.Message import Message
@@ -13,7 +12,7 @@ class Server():
             message = Message(json.loads(recieved))
             self.event_bus.post_message(message)
 
-    def __init__(self, event_bus):
+    def __init__(self, event_bus: EventBus):
         self.initialize = websockets.serve(self.connectionHandler, "0.0.0.0", 443)
         self.event_bus = event_bus
 

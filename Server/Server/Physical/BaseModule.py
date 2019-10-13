@@ -1,4 +1,3 @@
-from Communication import EventBus
 from Communication import Message
 
 class BaseModule:

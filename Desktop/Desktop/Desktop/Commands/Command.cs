@@ -17,5 +17,6 @@ namespace Desktop.Commands
         public static string RequestRange => "RangeCommand";
         public static string ReturnRange => "RangeResponse";
         public static string Led => "LedCommand";
+        public static string Map => "MapCommand";
     }
 }
