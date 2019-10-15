@@ -25,7 +25,11 @@ class Environment:
         px = image.load()
         for i in range(img_size):
             for j in range(img_size):
-                px[i, j] = self.area[i, j]
+                val = self.area[(i, j)]
+                color = 0
+                if not val:
+                    color = 255
+                px[i, j] = color;
         path = os.path.join(os.path.join(os.environ['USERPROFILE']),'test.png')
         image.save(path)
 

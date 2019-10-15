@@ -9,7 +9,7 @@ class BaseModule:
         print(f'Module {self.get_name()} powering down')
 
     def process(self, message: Message):
-        print(f'Module {self.get_name()} processing message {message}')
+        pass
 
     def get_name(self):
         return "Base module"

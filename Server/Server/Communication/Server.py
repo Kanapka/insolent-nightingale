@@ -8,7 +8,6 @@ class Server():
     async def connectionHandler(self, websocket, whatever):
         print("Client connected")
         async for recieved in websocket:
-            print("Recieved message")
             message = Message(json.loads(recieved))
             self.event_bus.post_message(message)
 

@@ -44,8 +44,10 @@ class NavigationModule(BaseModule):
 
     def registerContact(self, message: Message):
         distance = message.payload
+        print(f'Contact {distance} away')
         vector = self.heading() * distance
         vector = vector + self.positon
+        print(f'Contact at {vector}')
         self.environment.register_obstacle(vector)
 
     def heading(self):
@@ -53,10 +55,12 @@ class NavigationModule(BaseModule):
 
     def registerRotation(self, message: Message):
         rotation = message.payload
+        print(f'Rotated by {rotation}')
         self.rotation += rotation
 
     def registerDistance(self, message: Message):
         distance = message.payload
+        print(f'Travelled {distance}')
         vector = self.heading() * distance
         self.positon += vector
 

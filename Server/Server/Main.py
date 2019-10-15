@@ -17,6 +17,7 @@ with open(modulesConfigFilePath, 'r') as f:
     MODULES = json.load(f)
 
 if CONFIG['virtualPins']:
+    print('Using virtual pins...')
     Device.pin_factory = MockFactory()
 
 
@@ -26,6 +27,7 @@ server = Server(event_bus)
 leftMotor = (MODULES['mobility']['left']['inputA'], MODULES['mobility']['left']['inputB'], MODULES['mobility']['left']['pwm'])
 rightMotor = (MODULES['mobility']['right']['inputA'], MODULES['mobility']['right']['inputB'], MODULES['mobility']['right']['pwm'])
 if CONFIG['virtualPins']:
+    print('Using motors with no virtual pins...')
     leftMotor = (MODULES['mobility']['left']['inputA'], MODULES['mobility']['left']['inputB'])
     rightMotor = (MODULES['mobility']['right']['inputA'], MODULES['mobility']['right']['inputB'])
 
@@ -37,7 +39,7 @@ mobility.power_up()
 rangefinder.power_up()
 navigation.power_up()
 
-#navigation.environment.dump_to_file()
+navigation.environment.dump_to_file()
 
 server.run()
 
