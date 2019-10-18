@@ -40,7 +40,7 @@ class NavigationModule(BaseModule):
         elif message.message_type == MessageType.RotationPerformed:
             self.registerRotation(message)
         elif message.message_type == MessageType.DumpMap:
-            self.environment.dump_to_file()
+            self.environment.dump_to_file(self.positon)
 
     def registerContact(self, message: Message):
         distance = message.payload

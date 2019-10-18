@@ -39,7 +39,7 @@ mobility.power_up()
 rangefinder.power_up()
 navigation.power_up()
 
-navigation.environment.dump_to_file()
+#navigation.environment.dump_to_file()
 
 server.run()
 
